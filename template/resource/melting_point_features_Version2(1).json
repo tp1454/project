@@ -1,0 +1,126 @@
+{
+  "primary": [
+    "num_atoms",
+    "num_heavy_atoms",
+    "num_hydrogens",
+    "num_heteroatoms",
+    "num_valence_electrons",
+
+    "num_rings",
+    "aromatic_ring_count",
+    "aliphatic_ring_count",
+    "largest_ring_size",
+    "num_ring_systems",
+    "num_fused_rings",
+    "num_spiro_atoms",
+    "has_aromatic_ring",
+    "has_phenyl_group",
+
+    "num_double_bonds",
+    "num_triple_bonds",
+    "num_conjugated_bonds",
+    "saturation_index",
+
+    "num_rotatable_bonds",
+    "degree_of_branchedness",
+    "topological_complexity",
+    "longest_aliphatic_chain_length",
+    "topological_radius",
+    "topological_diameter",
+
+    "has_alcohol",
+    "has_amine",
+    "has_amide",
+    "has_carboxylic_acid",
+    "has_ester",
+    "has_ether",
+    "has_halogen",
+    "has_thiol",
+    "has_nitro",
+    "has_sulfonyl",
+
+    "num_alcohols",
+    "num_amines",
+    "num_amides",
+    "num_carboxylic_acids",
+    "num_esters",
+    "num_ethers",
+    "num_thiols",
+    "num_nitro_groups",
+    "num_sulfonyl_groups",
+
+    "num_halogen_atoms",
+    "num_fluorine_atoms",
+    "num_chlorine_atoms",
+    "num_bromine_atoms",
+    "num_iodine_atoms",
+
+    "num_aromatic_heterocycles",
+    "num_aromatic_carbocycles",
+
+    "hbond_donor_count",
+    "hbond_acceptor_count",
+    "num_strong_hbond_donors",
+    "num_strong_hbond_acceptors",
+
+    "formal_charge",
+    "num_positive_atoms",
+    "num_negative_atoms",
+    "is_zwitterionic",
+
+    "molecular_weight",
+    "exact_molecular_weight",
+    "fraction_csp3",
+    "aromatic_proportion",
+
+    "logp",
+    "tpsa",
+
+    "gasteiger_charges",
+
+    "conformer_count",
+    "volume_3d",
+    "surface_area_3d",
+    "principal_moments_3d",
+    "radius_of_gyration_3d",
+    "inertia_mass_3d",
+    "asphericity_3d",
+    "eccentricity_3d",
+    "inertial_shape_factor_3d",
+
+    "num_stereo_centers",
+    "num_defined_stereo_centers",
+    "num_undefined_stereo_centers",
+
+    "morgan_fingerprint_bits",
+    "maccs_keys_bits"
+  ],
+  "secondary": [
+    "gasteiger_max_partial_charge",
+    "gasteiger_min_partial_charge",
+    "gasteiger_sum_absolute_charges",
+    "gasteiger_charge_std_dev",
+    "gasteiger_charge_range",
+
+    "dipole_proxy_range_3d",
+    "dipole_proxy_spread_3d",
+
+    "ring_atom_fraction",
+    "aromatic_atom_fraction",
+    "heteroatom_fraction",
+    "rotatable_bond_fraction",
+
+    "hbond_donor_density",
+    "hbond_acceptor_density",
+
+    "surface_area_to_volume_ratio",
+    "polarity_to_size_ratio",
+
+    "rigidity_index",
+    "planarity_proxy_index",
+
+    "num_aromatic_rings_fragments",
+    "num_heteroatom_fragments",
+    "num_hbonding_fragments"
+  ]
+}

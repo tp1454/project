@@ -1,0 +1,4 @@
+some data contain `null`: remove them
+some data contain `-` and `°C` or `°F`: take the middle value
+some data only contain `-`: remove them
+some data have `>` or `<`: consider move them to opp data

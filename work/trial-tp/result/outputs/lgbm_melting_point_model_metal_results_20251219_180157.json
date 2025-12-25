@@ -1,0 +1,32 @@
+{
+  "model_params": {
+    "boosting_type": "gbdt",
+    "class_weight": null,
+    "colsample_bytree": 0.8,
+    "importance_type": "split",
+    "learning_rate": 0.05,
+    "max_depth": -1,
+    "min_child_samples": 100,
+    "min_child_weight": 0.001,
+    "min_split_gain": 0.0,
+    "n_estimators": 2000,
+    "n_jobs": -1,
+    "num_leaves": 31,
+    "objective": "quantile",
+    "random_state": 42,
+    "reg_alpha": 0.1,
+    "reg_lambda": 0.1,
+    "subsample": 0.8,
+    "subsample_for_bin": 200000,
+    "subsample_freq": 0,
+    "alpha": 0.5
+  },
+  "best_iteration": 468,
+  "valid_score": 576.3391369732549,
+  "additional_score": {
+    "rmse": 1007.6313347123512,
+    "mae": 576.3391369732548,
+    "r2": 0.26196209555550953
+  },
+  "timestamp": "20251219_180157"
+}

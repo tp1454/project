@@ -6,6 +6,7 @@ import lightgbm as lgb
 import os
 import subprocess
 import sys
+import pubchempy as pcp
 from rdkit import Chem, RDConfig, RDLogger
 from rdkit.Chem import AllChem, Crippen, Descriptors, Fragments, Lipinski, rdMolDescriptors, rdFingerprintGenerator, ChemicalFeatures
 from rdkit.Chem.MACCSkeys import GenMACCSKeys
@@ -336,26 +337,54 @@ col1, col2 = st.columns([1, 1])
 with col1:
     st.markdown("### 🧪 Nhập liệu")
     
-    input_mode = st.radio("Nguồn dữ liệu:", ["Nhập thủ công (SMILES)", "Chọn chất mẫu có sẵn"])
+    input_tab1, input_tab2, input_tab3 = st.tabs(["🔍 Tìm theo Tên", "✍️ Nhập SMILES", "🧪 Chất mẫu"])
     
     smiles_input = ""
     
-    if input_mode == "Nhập thủ công (SMILES)":
-        smiles_input = st.text_input("Nhập chuỗi SMILES:", placeholder="Ví dụ: CCO")
-    else:
+    with input_tab1:
+        st.info("Nhập tên tiếng Anh của chất (VD: Aspirin, Ibuprofen, Benzene...)")
+        name_input = st.text_input("Tên chất:", placeholder="Ví dụ: Vitamin C")
+        
+        if st.button("🔍 Tìm kiếm SMILES", key="search_btn"):
+            if name_input:
+                try:
+                    with st.spinner(f"Đang tìm kiếm '{name_input}' trên PubChem..."):
+                        compounds = pcp.get_compounds(name_input, 'name')
+                        if compounds:
+                            found_smiles = compounds[0].isomeric_smiles
+                            st.success(f"Đã tìm thấy: {name_input}")
+                            st.code(found_smiles)
+                            st.session_state['auto_smiles'] = found_smiles
+                        else:
+                            st.error("Không tìm thấy chất này. Hãy thử tên tiếng Anh khác.")
+                except Exception as e:
+                    st.error(f"Lỗi kết nối: {e}")
+        
+        if 'auto_smiles' in st.session_state:
+            smiles_input = st.session_state['auto_smiles']
+
+    with input_tab2:
+        manual_smiles = st.text_input("Dán chuỗi SMILES vào đây:", value=st.session_state.get('auto_smiles', ''))
+        if manual_smiles:
+            smiles_input = manual_smiles
+
+    with input_tab3:
         s_dict = {
             "Aspirin": "CC(=O)OC1=CC=CC=C1C(=O)O",
             "Paracetamol": "CC(=O)NC1=CC=C(O)C=C1",
             "Caffeine": "CN1C=NC2=C1C(=O)N(C(=O)N2C)C",
-            "Metformin": "CN(C)C(=N)NC(=N)N",
-            "Cholesterol": "CC(C)CCCC(C)C1CCC2C1(CCC3C2CC=C4C3(CCC(C4)O)C)C"
+            "Metformin": "CN(C)C(=N)NC(=N)N"
         }
-        sel = st.selectbox("Chọn chất:", list(s_dict.keys()))
+        sel = st.selectbox("Chọn chất mẫu:", list(s_dict.keys()))
         if sel:
             smiles_input = s_dict[sel]
-            st.info(f"SMILES: `{smiles_input}`")
-            
-    btn = st.button("🚀 Dự đoán", type="primary", use_container_width=True)
+            st.code(smiles_input)
+
+    st.write("---")
+    if smiles_input:
+        st.write(f"**Chất đang chọn:** `{smiles_input[:20]}...`")
+        
+    btn = st.button("🚀 Dự đoán Nhiệt độ", type="primary", use_container_width=True)
 
 if btn and smiles_input:
     clean_smiles = standardize_smiles(smiles_input)

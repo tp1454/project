@@ -1,0 +1,12 @@
+name: melting-point-app
+channels:
+  - conda-forge
+dependencies:
+  - python=3.10
+  - rdkit
+  - streamlit
+  - lightgbm
+  - pandas
+  - numpy
+  - matplotlib
+  - joblib

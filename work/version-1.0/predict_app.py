@@ -336,18 +336,26 @@ col1, col2 = st.columns([1, 1])
 
 with col1:
     st.markdown("### 🧪 Nhập liệu")
-    tab1, tab2 = st.tabs(["SMILES", "Mẫu thử"])
-    with tab1: smiles_input = st.text_input("Nhập chuỗi SMILES:")
-    with tab2: 
+    
+    input_mode = st.radio("Nguồn dữ liệu:", ["Nhập thủ công (SMILES)", "Chọn chất mẫu có sẵn"])
+    
+    smiles_input = ""
+    
+    if input_mode == "Nhập thủ công (SMILES)":
+        smiles_input = st.text_input("Nhập chuỗi SMILES:", placeholder="Ví dụ: CCO")
+    else:
         s_dict = {
             "Aspirin": "CC(=O)OC1=CC=CC=C1C(=O)O",
             "Paracetamol": "CC(=O)NC1=CC=C(O)C=C1",
-            "Caffeine": "CN1C=NC2=C1C(=O)N(C(=O)N2C)C"
+            "Caffeine": "CN1C=NC2=C1C(=O)N(C(=O)N2C)C",
+            "Metformin": "CN(C)C(=N)NC(=N)N",
+            "Cholesterol": "CC(C)CCCC(C)C1CCC2C1(CCC3C2CC=C4C3(CCC(C4)O)C)C"
         }
         sel = st.selectbox("Chọn chất:", list(s_dict.keys()))
-        if sel: smiles_input = s_dict[sel]
-        st.code(smiles_input)
-        
+        if sel:
+            smiles_input = s_dict[sel]
+            st.info(f"SMILES: `{smiles_input}`")
+            
     btn = st.button("🚀 Dự đoán", type="primary", use_container_width=True)
 
 if btn and smiles_input:

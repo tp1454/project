@@ -334,57 +334,88 @@ st.markdown('<div class="main-header">DỰ ĐOÁN NHIỆT ĐỘ NÓNG CHẢY (Tm
 
 col1, col2 = st.columns([1, 1])
 
+if 'final_smiles' not in st.session_state:
+    st.session_state['final_smiles'] = ""
+if 'display_name' not in st.session_state:
+    st.session_state['display_name'] = ""
+
+def update_from_manual():
+    st.session_state['final_smiles'] = st.session_state.manual_input_key
+    st.session_state['display_name'] = "Nhập thủ công"
+
+def update_from_sample():
+    selected_name = st.session_state.sample_select_key
+    s_dict_local = {
+        "Aspirin": "CC(=O)OC1=CC=CC=C1C(=O)O",
+        "Paracetamol": "CC(=O)NC1=CC=C(O)C=C1",
+        "Caffeine": "CN1C=NC2=C1C(=O)N(C(=O)N2C)C",
+        "Metformin": "CN(C)C(=N)NC(=N)N",
+        "Cholesterol": "CC(C)CCCC(C)C1CCC2C1(CCC3C2CC=C4C3(CCC(C4)O)C)C"
+    }
+    if selected_name in s_dict_local:
+        st.session_state['final_smiles'] = s_dict_local[selected_name]
+        st.session_state['display_name'] = selected_name
+
 with col1:
     st.markdown("### 🧪 Nhập liệu")
     
-    input_tab1, input_tab2, input_tab3 = st.tabs(["🔍 Tìm theo Tên", "✍️ Nhập SMILES", "🧪 Chất mẫu"])
-    
-    smiles_input = ""
+    input_tab1, input_tab2, input_tab3 = st.tabs(["🔍 Tìm PubChem", "✍️ Nhập SMILES", "🧪 Chọn Mẫu"])
     
     with input_tab1:
-        st.info("Nhập tên tiếng Anh của chất (VD: Aspirin, Ibuprofen, Benzene...)")
-        name_input = st.text_input("Tên chất:", placeholder="Ví dụ: Vitamin C")
-        
-        if st.button("🔍 Tìm kiếm SMILES", key="search_btn"):
-            if name_input:
-                try:
-                    with st.spinner(f"Đang tìm kiếm '{name_input}' trên PubChem..."):
-                        compounds = pcp.get_compounds(name_input, 'name')
-                        if compounds:
-                            found_smiles = compounds[0].isomeric_smiles
-                            st.success(f"Đã tìm thấy: {name_input}")
-                            st.code(found_smiles)
-                            st.session_state['auto_smiles'] = found_smiles
-                        else:
-                            st.error("Không tìm thấy chất này. Hãy thử tên tiếng Anh khác.")
-                except Exception as e:
-                    st.error(f"Lỗi kết nối: {e}")
-        
-        if 'auto_smiles' in st.session_state:
-            smiles_input = st.session_state['auto_smiles']
+        st.info("Nhập tên tiếng Anh (VD: Vitamin C)")
+        col_search, col_btn = st.columns([3, 1])
+        with col_search:
+            name_input = st.text_input("Tên chất:", placeholder="Glucose", label_visibility="collapsed")
+        with col_btn:
+            search_pressed = st.button("🔍", help="Tìm kiếm")
+            
+        if search_pressed and name_input:
+            try:
+                with st.spinner(f"Đang tìm '{name_input}'..."):
+                    compounds = pcp.get_compounds(name_input, 'name')
+                    if compounds:
+                        found_smiles = compounds[0].isomeric_smiles
+                        st.session_state['final_smiles'] = found_smiles
+                        st.session_state['display_name'] = name_input
+                        st.success(f"✅ Tìm thấy: {name_input}")
+                    else:
+                        st.error("❌ Không tìm thấy.")
+            except Exception as e:
+                st.error(f"Lỗi mạng: {e}")
 
     with input_tab2:
-        manual_smiles = st.text_input("Dán chuỗi SMILES vào đây:", value=st.session_state.get('auto_smiles', ''))
-        if manual_smiles:
-            smiles_input = manual_smiles
+        st.text_input("Dán SMILES vào đây (Enter để xác nhận):", 
+                      key='manual_input_key',
+                      on_change=update_from_manual) 
 
     with input_tab3:
         s_dict = {
             "Aspirin": "CC(=O)OC1=CC=CC=C1C(=O)O",
             "Paracetamol": "CC(=O)NC1=CC=C(O)C=C1",
             "Caffeine": "CN1C=NC2=C1C(=O)N(C(=O)N2C)C",
-            "Metformin": "CN(C)C(=N)NC(=N)N"
+            "Metformin": "CN(C)C(=N)NC(=N)N",
+            "Cholesterol": "CC(C)CCCC(C)C1CCC2C1(CCC3C2CC=C4C3(CCC(C4)O)C)C"
         }
-        sel = st.selectbox("Chọn chất mẫu:", list(s_dict.keys()))
-        if sel:
-            smiles_input = s_dict[sel]
-            st.code(smiles_input)
+        st.selectbox("Chọn chất có sẵn:", list(s_dict.keys()), 
+                     index=None, 
+                     placeholder="Chọn một chất...",
+                     key='sample_select_key',
+                     on_change=update_from_sample)
 
     st.write("---")
-    if smiles_input:
-        st.write(f"**Chất đang chọn:** `{smiles_input[:20]}...`")
+    
+    current_smiles = st.session_state['final_smiles']
+    current_name = st.session_state['display_name']
+    
+    if current_smiles:
+        st.success(f"**Đang chọn:** {current_name}")
+        st.code(current_smiles, language='text')
+    else:
+        st.info("👈 Vui lòng chọn hoặc nhập chất để dự đoán")
         
     btn = st.button("🚀 Dự đoán Nhiệt độ", type="primary", use_container_width=True)
+
+smiles_input = st.session_state['final_smiles'] 
 
 if btn and smiles_input:
     clean_smiles = standardize_smiles(smiles_input)

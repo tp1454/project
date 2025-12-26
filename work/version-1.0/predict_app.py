@@ -43,7 +43,6 @@ def _safe(fn, default=0.0):
     return wrap
 
 def standardize_smiles(smiles):
-    """Chuẩn hóa SMILES và xử lý muối"""
     try:
         mol = Chem.MolFromSmiles(smiles)
         if mol is None: return None
@@ -400,12 +399,28 @@ if btn and smiles_input:
                         else:
                             st.warning("Server thiếu thư viện đồ họa nên không hiển thị hình ảnh.")
                         
-                        st.markdown(f"""
-                        <div class="result-box">
-                            <div class="result-value">{pred_val:.2f} K</div>
-                            <div>({pred_val - 273.15:.2f} °C)</div>
-                        </div>
-                        """, unsafe_allow_html=True)
+                        tm_k = pred_val
+                        tm_c = tm_k - 273.15
+                        tm_f = (tm_c * 9/5) + 32
+
+                        st.markdown("#### 🌡️ Nhiệt độ dự báo:")
+                        m_col1, m_col2, m_col3 = st.columns(3)
+                        with m_col1:
+                            st.metric(label="Kelvin (K)", value=f"{tm_k:.2f}")
+                        with m_col2:
+                            st.metric(label="Celsius (°C)", value=f"{tm_c:.2f}")
+                        with m_col3:
+                            st.metric(label="Fahrenheit (°F)", value=f"{tm_f:.2f}")
+
+                        st.write("")
+                        if tm_c < 0:
+                            st.info(f"❄️ Chất này có nhiệt độ nóng chảy thấp (Lỏng/Khí ở đk thường).")
+                        elif tm_c < 100:
+                            st.success(f"💧 Chất rắn dễ nóng chảy (tương đương sáp nến/bơ).")
+                        elif tm_c < 300:
+                            st.warning(f"🔥 Chất rắn nóng chảy trung bình.")
+                        else:
+                            st.error(f"🌋 Chất rắn chịu nhiệt cao.")
                         
                         if missing_feats:
                             st.warning(f"⚠️ Cảnh báo: Có {len(missing_feats)} đặc trưng thiếu.")

@@ -3,6 +3,9 @@ import pandas as pd
 import numpy as np
 import joblib
 import lightgbm as lgb
+import os
+import subprocess
+import sys
 from rdkit import Chem, RDConfig, RDLogger
 from rdkit.Chem import AllChem, Crippen, Descriptors, Fragments, Lipinski, rdMolDescriptors, rdFingerprintGenerator, ChemicalFeatures
 from rdkit.Chem.MACCSkeys import GenMACCSKeys
@@ -11,6 +14,13 @@ from rdkit.Chem import Draw
 import matplotlib.pyplot as plt
 from pathlib import Path
 import warnings
+
+if sys.platform.startswith('linux'):
+    try:
+        import rdkit.Chem.Draw
+    except ImportError:
+        subprocess.run(["apt-get", "update"], capture_output=True)
+        subprocess.run(["apt-get", "install", "-y", "libxrender1", "libxext6"], capture_output=True)
 
 warnings.filterwarnings('ignore')
 RDLogger.DisableLog('rdApp.*')

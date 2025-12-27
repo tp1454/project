@@ -20,7 +20,6 @@ try:
     HAS_DRAW = True
 except ImportError:
     HAS_DRAW = False
-    print("⚠️ Server thiếu thư viện vẽ hình. Đã tắt tính năng hiển thị cấu trúc.")
 
 warnings.filterwarnings('ignore')
 RDLogger.DisableLog('rdApp.*')
@@ -34,6 +33,38 @@ try:
     FEATURE_FACTORY = ChemicalFeatures.BuildFeatureFactory(Path(RDConfig.RDDataDir) / 'BaseFeatures.fdef')
 except:
     FEATURE_FACTORY = None
+
+REF_DB = [
+    {"name": "Ethanol (Cồn)", "tm": -114.1, "desc": "Dung môi sát khuẩn"},
+    {"name": "Acetone", "tm": -95.0, "desc": "Nước rửa móng tay"},
+    {"name": "Nước đá", "tm": 0.0, "desc": "Nước tinh khiết"},
+    {"name": "Benzene", "tm": 5.5, "desc": "Dung môi hữu cơ"},
+    {"name": "Dầu dừa", "tm": 24.0, "desc": "Đông đặc khi trời lạnh"},
+    {"name": "Menthol (Bạc hà)", "tm": 42.0, "desc": "Chất rắn dễ chảy"},
+    {"name": "Sáp ong", "tm": 62.0, "desc": "Làm nến, mỹ phẩm"},
+    {"name": "Naphthalene (Băng phiến)", "tm": 80.2, "desc": "Chống gián, mối"},
+    {"name": "Vanillin", "tm": 81.0, "desc": "Hương liệu làm bánh"},
+    {"name": "Benzoic Acid", "tm": 122.0, "desc": "Chất bảo quản thực phẩm"},
+    {"name": "Aspirin", "tm": 135.0, "desc": "Thuốc giảm đau"},
+    {"name": "Cholesterol", "tm": 148.0, "desc": "Lipid trong máu"},
+    {"name": "Đường Glucose", "tm": 146.0, "desc": "Đường ăn kiêng"},
+    {"name": "Paracetamol", "tm": 169.0, "desc": "Thuốc hạ sốt"},
+    {"name": "Vitamin C", "tm": 190.0, "desc": "Cần thiết cho cơ thể"},
+    {"name": "Caffeine", "tm": 235.0, "desc": "Trong cà phê/trà"},
+    {"name": "Phenolphthalein", "tm": 260.0, "desc": "Chất chỉ thị màu"},
+    {"name": "Muối ăn (NaCl)", "tm": 801.0, "desc": "Gia vị"}
+]
+
+def suggest_similar_substances(predicted_tm_c):
+    suggestions = []
+    for item in REF_DB:
+        diff = abs(item['tm'] - predicted_tm_c)
+        if diff <= 30:
+            item_copy = item.copy()
+            item_copy['diff'] = diff
+            suggestions.append(item_copy)
+    suggestions.sort(key=lambda x: x['diff'])
+    return suggestions[:5]
 
 def _safe(fn, default=0.0):
     def wrap(*args, **kwargs):
@@ -482,6 +513,23 @@ if btn and smiles_input:
                         else:
                             st.error(f"🌋 Chất rắn chịu nhiệt cao.")
                         
+                        st.markdown("##### ⚖️ So sánh với các chất phổ biến:")
+                        similar_list = suggest_similar_substances(tm_c)
+                        
+                        if similar_list:
+                            df_ref = pd.DataFrame(similar_list)
+                            df_display = pd.DataFrame({
+                                "Tên chất": df_ref['name'],
+                                "Tm Thực tế": df_ref['tm'].apply(lambda x: f"{x}°C"),
+                                "Mô tả": df_ref['desc'],
+                                "Chênh lệch": df_ref['diff'].apply(lambda x: f"± {x:.1f}°C")
+                            })
+                            st.table(df_display)
+                            best_match = similar_list[0]
+                            st.info(f"💡 **Nhận xét:** Chất này có tính chất nhiệt tương đồng với **{best_match['name']}**.")
+                        else:
+                            st.write("Nhiệt độ này quá đặc biệt, không tìm thấy chất phổ biến tương đương trong danh sách.")
+
                         if missing_feats:
                             st.warning(f"⚠️ Cảnh báo: Có {len(missing_feats)} đặc trưng thiếu.")
                             with st.expander("Chi tiết"): st.write(missing_feats)

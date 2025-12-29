@@ -1,0 +1,281 @@
+feature
+Chi0n
+Chi3v
+Count_Cl
+Count_N
+EState_VSA3
+EState_VSA6
+EState_VSA7
+Flexibility_Score
+FpDensityMorgan1
+FpDensityMorgan2
+FracTriple
+Gasteiger_q_abs_sum
+Gasteiger_q_min
+Group 100
+Group 109
+Group 110
+Group 117
+Group 118
+Group 120
+Group 127
+Group 14
+Group 15
+Group 17
+Group 170
+Group 176
+Group 180
+Group 181
+Group 191
+Group 192
+Group 193
+Group 195
+Group 20
+Group 200
+Group 203
+Group 222
+Group 224
+Group 226
+Group 24
+Group 246
+Group 262
+Group 267
+Group 287
+Group 291
+Group 297
+Group 300
+Group 315
+Group 319
+Group 32
+Group 322
+Group 324
+Group 325
+Group 326
+Group 327
+Group 328
+Group 329
+Group 344
+Group 365
+Group 372
+Group 389
+Group 393
+Group 394
+Group 395
+Group 396
+Group 4
+Group 401
+Group 402
+Group 403
+Group 408
+Group 410
+Group 415
+Group 45
+Group 52
+Group 62
+Group 68
+Group 72
+Group 77
+Group 86
+Group 98
+HeavyAtomMolWt
+Kappa3
+LogP_div_TPSA
+MACCS_101
+MACCS_109
+MACCS_114
+MACCS_115
+MACCS_117
+MACCS_119
+MACCS_121
+MACCS_122
+MACCS_135
+MACCS_137
+MACCS_138
+MACCS_139
+MACCS_141
+MACCS_149
+MACCS_150
+MACCS_151
+MACCS_154
+MACCS_158
+MACCS_16
+MACCS_161
+MACCS_163
+MACCS_165
+MACCS_21
+MACCS_22
+MACCS_23
+MACCS_26
+MACCS_31
+MACCS_33
+MACCS_37
+MACCS_48
+MACCS_51
+MACCS_52
+MACCS_53
+MACCS_62
+MACCS_64
+MACCS_71
+MACCS_77
+MACCS_83
+MACCS_84
+MACCS_92
+MACCS_95
+MACCS_97
+MeanBondOrder
+MolLogP
+MolWt
+Morgan_10
+Morgan_105
+Morgan_123
+Morgan_125
+Morgan_128
+Morgan_129
+Morgan_137
+Morgan_14
+Morgan_140
+Morgan_147
+Morgan_154
+Morgan_16
+Morgan_164
+Morgan_170
+Morgan_172
+Morgan_18
+Morgan_186
+Morgan_189
+Morgan_19
+Morgan_191
+Morgan_193
+Morgan_195
+Morgan_208
+Morgan_215
+Morgan_217
+Morgan_22
+Morgan_221
+Morgan_224
+Morgan_226
+Morgan_227
+Morgan_231
+Morgan_233
+Morgan_235
+Morgan_239
+Morgan_24
+Morgan_242
+Morgan_243
+Morgan_263
+Morgan_270
+Morgan_273
+Morgan_275
+Morgan_280
+Morgan_289
+Morgan_291
+Morgan_294
+Morgan_301
+Morgan_308
+Morgan_314
+Morgan_315
+Morgan_316
+Morgan_319
+Morgan_321
+Morgan_337
+Morgan_338
+Morgan_340
+Morgan_344
+Morgan_348
+Morgan_352
+Morgan_356
+Morgan_357
+Morgan_358
+Morgan_363
+Morgan_373
+Morgan_374
+Morgan_381
+Morgan_382
+Morgan_388
+Morgan_392
+Morgan_394
+Morgan_40
+Morgan_401
+Morgan_41
+Morgan_417
+Morgan_420
+Morgan_427
+Morgan_429
+Morgan_430
+Morgan_434
+Morgan_437
+Morgan_444
+Morgan_446
+Morgan_448
+Morgan_47
+Morgan_472
+Morgan_489
+Morgan_490
+Morgan_494
+Morgan_495
+Morgan_497
+Morgan_510
+Morgan_53
+Morgan_55
+Morgan_58
+Morgan_6
+Morgan_62
+Morgan_64
+Morgan_7
+Morgan_80
+Morgan_81
+Morgan_87
+Morgan_88
+Morgan_90
+Morgan_93
+Morgan_97
+NHOHCount
+NumAliphaticRings
+NumAromaticRings
+NumBridgeheadAtoms
+NumHeterocycles
+NumSaturatedRings
+PEOE_VSA1
+PEOE_VSA4
+PEOE_VSA6
+PEOE_VSA7
+PEOE_VSA8
+Rigidity_Score
+RingCount
+Rings5
+SMR_VSA2
+SMR_VSA3
+SMR_VSA6
+SlogP_VSA7
+TPSA
+VSA_EState2
+VSA_EState4
+VSA_EState8
+fr_Ar_NH
+fr_Ar_OH
+fr_C_O
+fr_NH1
+fr_NH2
+fr_SH
+fr_alkyl_halide
+fr_allylic_oxid
+fr_aryl_methyl
+fr_bicyclic
+fr_imidazole
+fr_lactone
+fr_nitro_arom
+fr_oxime
+fr_phenol
+fr_phenol_noOrthoHbond
+fr_priamide
+fr_pyridine
+fr_sulfide
+fr_sulfone
+fr_term_acetylene
+has_amide
+has_halogen
+has_nitro
+has_phenyl_group
+longest_aliphatic_chain_length
+topological_diameter
+topological_radius
